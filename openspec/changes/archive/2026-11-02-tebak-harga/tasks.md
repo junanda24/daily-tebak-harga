@@ -8,6 +8,6 @@
       main lagi; cek validasi input kosong/negatif; cek tidak ada softlock;
       cek skor terbaik tersimpan
 - [x] Archive: pindahkan change ke openspec/changes/archive/2026-11-02-tebak-harga/
-- [ ] README lengkap + export artifact ke src/ + commit + repo GitHub
+- [x] README lengkap + export artifact ke src/ + commit + repo GitHub
       junanda24/daily-tebak-harga + verifikasi via API
-- [ ] BUILT.md + profile README junanda24/junanda24 + log ~/memory/2026-11-02.md
+- [x] BUILT.md + profile README junanda24/junanda24 + log ~/memory/2026-11-02.md
