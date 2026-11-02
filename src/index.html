@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light" />
+<link rel="icon" href="data:," />
+<title>TEBAK HARGA!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FFF4DC;
+    --cream-2:#FDEBC6;
+    --paper:#FFFEF7;
+    --ink:#2E2118;
+    --ink-soft:#6B5B4B;
+    --green:#2F7D3B;
+    --green-dark:#236030;
+    --green-soft:#E2F0DF;
+    --red:#C93A2B;
+    --red-dark:#A5281C;
+    --red-soft:#FBE3DE;
+    --gold:#E9A319;
+    --gold-soft:#FDF0D2;
+    --line:#E6D3AC;
+    --radius:18px;
+    --shadow:0 4px 0 rgba(46,33,24,.9);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    min-height:100vh;
+    min-height:100dvh;
+  }
+  button,input{font:inherit;color:inherit}
+  button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+  .wrap{max-width:540px;margin:0 auto;padding:0 16px 40px}
+
+  /* Awning strip */
+  .awning{display:flex;height:18px;border-bottom:3px solid var(--ink)}
+  .awning span{flex:1}
+  .awning span:nth-child(odd){background:var(--red)}
+  .awning span:nth-child(even){background:var(--paper)}
+  .awning-scallop{display:flex;height:10px}
+  .awning-scallop i{flex:1;border-radius:0 0 999px 999px;border:3px solid var(--ink);border-top:none;margin-top:-3px}
+  .awning-scallop i:nth-child(odd){background:var(--red)}
+  .awning-scallop i:nth-child(even){background:var(--paper)}
+
+  /* ---------- Start screen ---------- */
+  .masthead{padding:28px 4px 6px;text-align:center}
+  .masthead .kicker{
+    display:inline-block;background:var(--ink);color:#FFF6E3;
+    font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 12px;border-radius:999px;margin:0 0 14px;
+  }
+  h1{
+    font-family:"Fraunces",Georgia,serif;
+    font-size:clamp(52px,15vw,76px);line-height:.9;font-weight:900;
+    letter-spacing:-.01em;margin:0;
+  }
+  h1 .row2{display:block;color:var(--red)}
+  .tagline{font-size:19px;font-weight:700;line-height:1.35;margin:14px auto 0;max-width:400px}
+  .tagline em{font-style:normal;color:var(--green)}
+  .market-row{display:flex;justify-content:center;gap:6px;margin:20px 0 4px;flex-wrap:wrap}
+  .market-row .chip-ill{
+    width:56px;height:56px;background:var(--paper);border:2px solid var(--ink);
+    border-radius:14px;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 3px 0 rgba(46,33,24,.9);
+  }
+  .market-row .chip-ill svg{width:40px;height:40px}
+  .market-row .chip-ill:nth-child(2){transform:rotate(-4deg)}
+  .market-row .chip-ill:nth-child(4){transform:rotate(3deg)}
+  .market-row .chip-ill:nth-child(6){transform:rotate(-3deg)}
+
+  .card{
+    background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:20px;
+  }
+  .howto{margin-top:22px}
+  .howto h2,.panel-title{font-size:15px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px;color:var(--ink-soft)}
+  .howto ol{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:step}
+  .howto li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.5}
+  .howto li::before{
+    counter-increment:step;content:counter(step);
+    flex:0 0 30px;height:30px;border-radius:50%;background:var(--gold);
+    border:2px solid var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px;
+  }
+  .howto b{font-weight:800}
+  .best-row{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin-top:16px;padding:14px 16px;border:2px dashed var(--ink);
+    border-radius:14px;background:var(--gold-soft);
+  }
+  .best-row .label{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .best-row .value{font-size:22px;font-weight:800}
+  .best-row .value small{font-size:13px;font-weight:600;color:var(--ink-soft)}
+
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+    border:2.5px solid var(--ink);border-radius:16px;padding:16px 20px;
+    font-size:18px;font-weight:800;box-shadow:var(--shadow);
+    transition:transform .08s ease, box-shadow .08s ease;
+  }
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(46,33,24,.9)}
+  .btn-green{background:var(--green);color:#fff}
+  .btn-green:hover{background:var(--green-dark)}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-red:hover{background:var(--red-dark)}
+  .btn-cream{background:var(--paper);color:var(--ink)}
+  .btn-big{font-size:20px;padding:18px 20px;margin-top:16px}
+  .btn .sub{display:block;font-size:13px;font-weight:600;opacity:.85}
+
+  .source-note{
+    margin-top:20px;font-size:13px;line-height:1.55;color:var(--ink-soft);
+    border-top:2px solid var(--line);padding-top:14px;text-align:center;
+  }
+  .source-note b{color:var(--ink)}
+  .meta-line{text-align:center;font-size:13px;font-weight:700;color:var(--ink-soft);margin-top:10px}
+  .meta-line span{color:var(--red)}
+
+  /* ---------- Game screen ---------- */
+  .game-top{
+    display:flex;align-items:center;gap:10px;padding:16px 0 12px;
+  }
+  .game-top .round-pill{
+    background:var(--ink);color:#FFF6E3;font-weight:800;font-size:14px;
+    padding:8px 13px;border-radius:999px;white-space:nowrap;
+  }
+  .game-top .score-pill{
+    margin-left:auto;background:var(--paper);border:2px solid var(--ink);
+    border-radius:999px;padding:7px 13px;font-weight:800;font-size:14px;white-space:nowrap;
+  }
+  .game-top .score-pill b{color:var(--green);font-size:16px}
+  .link-btn{
+    background:none;border:none;font-weight:700;font-size:14px;color:var(--ink-soft);
+    text-decoration:underline;text-underline-offset:3px;padding:8px 4px;white-space:nowrap;
+  }
+  .progress{display:flex;gap:5px;margin-bottom:14px}
+  .progress i{flex:1;height:8px;border-radius:99px;background:#EADFC2;border:1.5px solid var(--ink)}
+  .progress i.done{background:var(--green)}
+  .progress i.now{background:var(--gold)}
+
+  .item-card{text-align:center;padding:22px 18px 18px}
+  .item-art{
+    width:148px;height:148px;margin:0 auto 6px;background:var(--cream);
+    border:2.5px solid var(--ink);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .item-art svg{width:118px;height:118px}
+  .item-name{
+    font-family:"Fraunces",Georgia,serif;font-size:30px;font-weight:900;line-height:1.1;margin:8px 0 6px;
+  }
+  .unit{
+    display:inline-block;background:var(--green-soft);border:1.5px solid var(--green);
+    color:var(--green-dark);font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+  }
+  .guess-label{display:block;font-size:14px;font-weight:700;color:var(--ink-soft);margin:20px 0 8px;text-align:left}
+  .money-field{
+    display:flex;align-items:stretch;border:2.5px solid var(--ink);border-radius:14px;
+    overflow:hidden;background:#fff;box-shadow:0 3px 0 rgba(46,33,24,.25);
+  }
+  .money-field .rp{
+    display:flex;align-items:center;padding:0 14px;background:var(--gold-soft);
+    border-right:2px solid var(--ink);font-weight:800;font-size:20px;
+  }
+  .money-field input{
+    flex:1;min-width:0;border:none;outline:none;padding:16px 12px;
+    font-size:26px;font-weight:800;letter-spacing:.01em;background:transparent;
+  }
+  .money-field input::placeholder{color:#C9B995;font-weight:600}
+  .money-field:focus-within{outline:3px solid var(--gold);outline-offset:2px}
+  .live-format{font-size:13.5px;color:var(--ink-soft);margin:8px 2px 0;min-height:20px;text-align:left}
+  .live-format b{color:var(--ink)}
+  .error{
+    display:none;margin-top:10px;background:var(--red-soft);border:2px solid var(--red);
+    color:var(--red-dark);border-radius:12px;padding:11px 13px;font-size:14.5px;font-weight:700;line-height:1.45;
+  }
+  .error.show{display:block}
+
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
+  .keypad button{
+    border:2px solid var(--ink);background:var(--paper);border-radius:13px;
+    padding:14px 0;font-size:21px;font-weight:800;box-shadow:0 3px 0 rgba(46,33,24,.9);
+  }
+  .keypad button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(46,33,24,.9)}
+  .keypad .key-wide{font-size:16px;background:var(--cream-2)}
+
+  /* Reveal */
+  .verdict{
+    border:2.5px solid var(--ink);border-radius:14px;padding:14px 16px;margin-top:18px;
+    text-align:center;box-shadow:0 3px 0 rgba(46,33,24,.9);
+  }
+  .verdict.close{background:var(--green-soft);border-color:var(--green-dark)}
+  .verdict.far{background:var(--red-soft);border-color:var(--red-dark)}
+  .verdict .v-label{font-family:"Fraunces",Georgia,serif;font-size:26px;font-weight:900;line-height:1.1}
+  .verdict.close .v-label{color:var(--green-dark)}
+  .verdict.far .v-label{color:var(--red-dark)}
+  .verdict .v-sub{font-size:14px;font-weight:600;margin-top:4px;color:var(--ink-soft)}
+  .big-number{
+    font-size:clamp(40px,11vw,52px);font-weight:800;letter-spacing:-.02em;
+    text-align:center;margin:18px 0 2px;line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .big-number.close{color:var(--green-dark)}
+  .big-number.far{color:var(--red-dark)}
+  .big-number .cur{font-size:20px;font-weight:700;color:var(--ink-soft);margin-right:4px}
+  .big-caption{text-align:center;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .detail{
+    border:2px solid var(--line);border-radius:13px;padding:12px 13px;background:#fff;
+  }
+  .detail .d-label{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft)}
+  .detail .d-value{font-size:17px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums;line-height:1.3}
+  .detail .d-value small{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+  .detail.full{grid-column:1 / -1}
+  .points-line{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-top:14px;padding:13px 14px;border-radius:13px;background:var(--gold-soft);
+    border:2px dashed var(--ink);font-weight:800;font-size:16px;
+  }
+  .points-line .pts{font-size:22px;color:var(--green-dark)}
+  .streak-line{
+    margin-top:9px;text-align:center;font-weight:800;color:var(--green-dark);
+    background:var(--green-soft);border:2px solid var(--green);border-radius:999px;padding:9px 12px;font-size:14.5px;
+  }
+  .streak-line[hidden]{display:none}
+
+  /* ---------- End screen ---------- */
+  .end-head{text-align:center;padding:26px 4px 4px}
+  .end-head .done-pill{
+    display:inline-block;background:var(--green);color:#fff;font-size:12px;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;padding:6px 13px;border-radius:999px;
+  }
+  .end-head h2{
+    font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,9vw,44px);font-weight:900;
+    line-height:1.05;margin:14px 0 6px;
+  }
+  .final-score{font-size:64px;font-weight:800;letter-spacing:-.03em;line-height:1;text-align:center;margin:10px 0 2px;font-variant-numeric:tabular-nums}
+  .final-score small{font-size:18px;font-weight:700;color:var(--ink-soft);letter-spacing:0}
+  .final-caption{text-align:center;color:var(--ink-soft);font-weight:600;font-size:14px}
+  .title-badge{
+    margin:16px auto 0;width:fit-content;max-width:100%;
+    background:var(--ink);color:#FFF6E3;border-radius:14px;padding:12px 20px;
+    font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:900;text-align:center;
+    box-shadow:0 4px 0 rgba(46,33,24,.35);
+  }
+  .new-best{
+    margin:14px auto 0;width:fit-content;background:var(--red);color:#fff;font-weight:800;
+    padding:8px 16px;border-radius:999px;font-size:14px;border:2px solid var(--ink);
+  }
+  .recap{margin-top:22px}
+  .recap h3{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 10px}
+  .recap-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  .recap-list li{
+    display:flex;align-items:center;gap:11px;background:var(--paper);
+    border:2px solid var(--ink);border-radius:13px;padding:10px 12px;
+  }
+  .recap-list .r-art{flex:0 0 42px;width:42px;height:42px;border-radius:10px;background:var(--cream);border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .recap-list .r-art svg{width:34px;height:34px}
+  .recap-list .r-name{flex:1;min-width:0;font-size:14.5px;font-weight:700;line-height:1.3}
+  .recap-list .r-name small{display:block;font-weight:600;color:var(--ink-soft);font-size:12.5px}
+  .recap-list .r-pts{font-weight:800;font-size:15px;white-space:nowrap;color:var(--green-dark)}
+  .end-actions{display:grid;gap:12px;margin-top:22px}
+  .end-actions .btn{margin-top:0}
+
+  [hidden]{display:none !important}
+
+  @media (min-width:560px){
+    .wrap{padding-bottom:56px}
+    .keypad button{padding:16px 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="awning" aria-hidden="true">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<div class="awning-scallop" aria-hidden="true">
+  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ START ============ -->
+  <section id="screen-start" aria-labelledby="game-title">
+    <div class="masthead">
+      <span class="kicker">Pasar Tradisional &middot; Harga per Kg</span>
+      <h1 id="game-title">TEBAK<span class="row2">HARGA!</span></h1>
+      <p class="tagline">Seberapa kenal kamu sama <em>harga pasar?</em> Tebak harga 10 bahan pokok, sedekat mungkin dengan harga sebenarnya.</p>
+      <div class="market-row" aria-hidden="true" id="market-row"></div>
+    </div>
+
+    <div class="card howto">
+      <h2>Cara main</h2>
+      <ol>
+        <li><span><b>10 ronde, tanpa ulang.</b> Setiap permainan mengambil 10 dari 14 bahan, diacak.</span></li>
+        <li><span><b>Tulis tebakanmu</b> dalam Rupiah per kg, lalu tekan <b>Kunci Tebakan</b>.</span></li>
+        <li><span><b>Makin dekat, makin besar poin.</b> Tebakan dalam 5% dari harga asli dapat 100 poin. Dua tebakan bagus berturut-turut dapat bonus 20 poin.</span></li>
+      </ol>
+      <div class="best-row">
+        <span class="label">Skor terbaik</span>
+        <span class="value" id="best-start">belum ada</span>
+      </div>
+    </div>
+
+    <button class="btn btn-green btn-big" id="btn-start" type="button">
+      Mulai Main
+      <span aria-hidden="true">&rarr;</span>
+    </button>
+    <p class="meta-line">14 bahan <span>&middot;</span> 10 ronde <span>&middot;</span> tanpa batas waktu</p>
+
+    <p class="source-note"><b>Harga acuan:</b> rata-rata nasional eceran PIHPS Nasional (Bank Indonesia) per 1 November 2026. Harga di tiap daerah dan pasar bisa berbeda.</p>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="screen-game" hidden aria-live="off">
+    <div class="game-top">
+      <span class="round-pill" id="round-pill">Ronde 1/10</span>
+      <span class="score-pill">Skor <b id="score-now">0</b></span>
+      <button class="link-btn" id="btn-quit" type="button">Ke Menu</button>
+    </div>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+
+    <div class="card item-card">
+      <div class="item-art" id="item-art" aria-hidden="true"></div>
+      <h2 class="item-name" id="item-name">—</h2>
+      <span class="unit">per kg</span>
+
+      <!-- Guess panel -->
+      <form id="guess-form" novalidate>
+        <label class="guess-label" for="guess-input">Tebakanmu (Rp per kg)</label>
+        <div class="money-field">
+          <span class="rp" aria-hidden="true">Rp</span>
+          <input id="guess-input" type="text" inputmode="decimal" autocomplete="off"
+                 placeholder="contoh: 25000" aria-describedby="live-format error-msg" />
+        </div>
+        <p class="live-format" id="live-format"></p>
+        <p class="error" id="error-msg" role="alert"></p>
+
+        <div class="keypad" aria-label="Tombol angka">
+          <button type="button" data-key="1">1</button>
+          <button type="button" data-key="2">2</button>
+          <button type="button" data-key="3">3</button>
+          <button type="button" data-key="4">4</button>
+          <button type="button" data-key="5">5</button>
+          <button type="button" data-key="6">6</button>
+          <button type="button" data-key="7">7</button>
+          <button type="button" data-key="8">8</button>
+          <button type="button" data-key="9">9</button>
+          <button type="button" data-key="000">000</button>
+          <button type="button" data-key="0">0</button>
+          <button type="button" data-key="del" class="key-wide">Hapus</button>
+        </div>
+
+        <button class="btn btn-red btn-big" id="btn-lock" type="submit">Kunci Tebakan</button>
+      </form>
+
+      <!-- Reveal panel -->
+      <div id="reveal" hidden>
+        <div class="verdict" id="verdict">
+          <div class="v-label" id="verdict-label">—</div>
+          <div class="v-sub" id="verdict-sub">—</div>
+        </div>
+        <p class="big-number" id="big-number" aria-live="polite"><span class="cur">Rp</span><span id="big-value">0</span></p>
+        <p class="big-caption">Harga sebenarnya &middot; per kg</p>
+
+        <div class="detail-grid">
+          <div class="detail">
+            <div class="d-label">Tebakanmu</div>
+            <div class="d-value" id="d-guess">—</div>
+          </div>
+          <div class="detail">
+            <div class="d-label">Harga sebenarnya</div>
+            <div class="d-value" id="d-actual">—</div>
+          </div>
+          <div class="detail">
+            <div class="d-label">Selisih Rupiah</div>
+            <div class="d-value" id="d-diff">—</div>
+          </div>
+          <div class="detail">
+            <div class="d-label">Selisih persen</div>
+            <div class="d-value" id="d-pct">—</div>
+          </div>
+        </div>
+
+        <div class="points-line">
+          <span id="points-label">Poin ronde ini</span>
+          <span class="pts" id="points-value">+0</span>
+        </div>
+        <p class="streak-line" id="streak-line" hidden>Bonus beruntun +20 poin &middot; dua tebakan bagus berturut-turut</p>
+
+        <button class="btn btn-green btn-big" id="btn-next" type="button">Ronde Berikutnya</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ END ============ -->
+  <section id="screen-end" hidden aria-labelledby="end-heading">
+    <div class="end-head">
+      <span class="done-pill">Permainan Selesai</span>
+      <h2 id="end-heading">Hasil Tebakanmu</h2>
+      <p class="final-score"><span id="final-score">0</span> <small>poin</small></p>
+      <p class="final-caption">dari 10 ronde &middot; skor maksimum 1.200 poin</p>
+      <div class="title-badge" id="final-title">—</div>
+      <p class="new-best" id="new-best" hidden>Skor terbaik baru!</p>
+    </div>
+
+    <div class="card recap">
+      <h3>Rekap ronde</h3>
+      <ul class="recap-list" id="recap-list"></ul>
+      <div class="best-row" style="margin-top:14px">
+        <span class="label">Skor terbaik</span>
+        <span class="value" id="best-end">belum ada</span>
+      </div>
+    </div>
+
+    <div class="end-actions">
+      <button class="btn btn-green btn-big" id="btn-again" type="button">Main Lagi</button>
+      <button class="btn btn-cream" id="btn-menu" type="button">Ke Menu</button>
+    </div>
+
+    <p class="source-note"><b>Harga acuan:</b> rata-rata nasional eceran PIHPS Nasional (Bank Indonesia) per 1 November 2026. Harga di tiap daerah dan pasar bisa berbeda.</p>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Exact reference prices — Rp per kg. Do not change. */
+  var ITEMS = [
+    { name:"Beras medium", price:16650, art:"rice" },
+    { name:"Beras super", price:18000, art:"rice2" },
+    { name:"Telur ayam ras", price:29350, art:"egg" },
+    { name:"Daging ayam ras", price:39000, art:"chicken" },
+    { name:"Daging sapi kualitas I", price:152700, art:"beef" },
+    { name:"Minyak goreng curah", price:20350, art:"oil" },
+    { name:"Minyak goreng kemasan bermerek I", price:24400, art:"oilbrand" },
+    { name:"Cabai rawit merah", price:96200, art:"chiliSmallRed" },
+    { name:"Cabai merah besar", price:71600, art:"chiliBigRed" },
+    { name:"Cabai rawit hijau", price:78350, art:"chiliSmallGreen" },
+    { name:"Bawang merah", price:37100, art:"shallot" },
+    { name:"Bawang putih", price:38250, art:"garlic" },
+    { name:"Gula pasir premium", price:20600, art:"sugar" },
+    { name:"Gula pasir lokal", price:19500, art:"sugar2" }
+  ];
+
+  var BEST_KEY = "tebak-harga-best";
+
+  /* ---- Simple code-drawn illustrations (flat SVG, no photos) ---- */
+  var ART = {
+    rice: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M38 34 Q60 20 82 34 L88 96 Q60 110 32 96 Z" fill="#E8D9B0" stroke="#2E2118" stroke-width="3"/><path d="M38 34 Q60 48 82 34" fill="none" stroke="#2E2118" stroke-width="3"/><ellipse cx="60" cy="52" rx="20" ry="9" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/><circle cx="52" cy="51" r="2.4" fill="#E9A319"/><circle cx="61" cy="54" r="2.4" fill="#E9A319"/><circle cx="69" cy="50" r="2.4" fill="#E9A319"/><circle cx="56" cy="47" r="2.4" fill="#E9A319"/><text x="60" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#2E2118" font-family="sans-serif">BERAS</text></svg>',
+    rice2: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M38 34 Q60 20 82 34 L88 96 Q60 110 32 96 Z" fill="#2F7D3B" stroke="#2E2118" stroke-width="3"/><path d="M38 34 Q60 48 82 34" fill="none" stroke="#2E2118" stroke-width="3"/><ellipse cx="60" cy="52" rx="20" ry="9" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/><circle cx="52" cy="51" r="2.4" fill="#E9A319"/><circle cx="61" cy="54" r="2.4" fill="#E9A319"/><circle cx="69" cy="50" r="2.4" fill="#E9A319"/><text x="60" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#FFF6E3" font-family="sans-serif">SUPER</text></svg>',
+    egg: '<svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="42" cy="66" rx="18" ry="23" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><ellipse cx="78" cy="66" rx="18" ry="23" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><ellipse cx="60" cy="58" rx="18" ry="23" fill="#FDF0D2" stroke="#2E2118" stroke-width="3"/><path d="M24 92 Q60 104 96 92 L96 102 Q60 112 24 102 Z" fill="#E9A319" stroke="#2E2118" stroke-width="3"/></svg>',
+    chicken: '<svg viewBox="0 0 120 120" aria-hidden="true"><ellipse cx="58" cy="66" rx="30" ry="24" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><circle cx="84" cy="40" r="14" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><path d="M78 28 q3 -9 9 -9 q-1 6 3 8 q6 -3 8 3 q-6 3 -6 8 l-14 -2 Z" fill="#C93A2B" stroke="#2E2118" stroke-width="2.5"/><circle cx="88" cy="38" r="2.4" fill="#2E2118"/><path d="M96 42 L104 44 L96 48 Z" fill="#E9A319" stroke="#2E2118" stroke-width="2"/><path d="M34 62 q-10 4 -8 14 q10 -2 12 -8" fill="#C93A2B" stroke="#2E2118" stroke-width="2.5"/></svg>',
+    beef: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M28 44 Q60 28 92 44 Q100 66 88 88 Q60 100 32 88 Q20 66 28 44Z" fill="#B3402F" stroke="#2E2118" stroke-width="3"/><path d="M40 52 Q60 42 80 52 Q84 66 74 80 Q60 88 46 80 Q36 66 40 52Z" fill="#D97B62" stroke="#2E2118" stroke-width="2.5"/><ellipse cx="56" cy="62" rx="7" ry="5" fill="#FDF0D2" stroke="#2E2118" stroke-width="2"/><ellipse cx="70" cy="70" rx="5" ry="4" fill="#FDF0D2" stroke="#2E2118" stroke-width="2"/></svg>',
+    oil: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M52 22 h16 v10 q14 8 14 26 v38 q0 8 -8 8 H46 q-8 0 -8 -8 V58 q0 -18 14 -26 Z" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><rect x="50" y="14" width="20" height="10" rx="3" fill="#2F7D3B" stroke="#2E2118" stroke-width="3"/><path d="M38 66 h44 v30 q0 8 -8 8 H46 q-8 0 -8 -8 Z" fill="#E9A319"/><path d="M60 74 q7 9 0 14 q-7 -5 0 -14Z" fill="#FFF6E3" stroke="#2E2118" stroke-width="2"/></svg>',
+    oilbrand: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M52 22 h16 v10 q14 8 14 26 v38 q0 8 -8 8 H46 q-8 0 -8 8 v-38 q0 -18 14 -26 Z" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><rect x="50" y="14" width="20" height="10" rx="3" fill="#C93A2B" stroke="#2E2118" stroke-width="3"/><path d="M38 66 h44 v30 q0 8 -8 8 H46 q-8 0 -8 -8 Z" fill="#E9A319"/><rect x="42" y="56" width="36" height="20" rx="3" fill="#C93A2B" stroke="#2E2118" stroke-width="2.5"/><text x="60" y="70" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="sans-serif">MINYAK</text></svg>',
+    chiliSmallRed: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M40 84 Q30 50 52 32 Q54 52 48 84 Q44 92 40 84Z" fill="#C93A2B" stroke="#2E2118" stroke-width="3"/><path d="M66 86 Q60 48 84 30 Q86 54 74 86 Q70 94 66 86Z" fill="#E04A35" stroke="#2E2118" stroke-width="3"/><path d="M84 30 q8 -8 14 -6 q-2 8 -8 10" fill="#2F7D3B" stroke="#2E2118" stroke-width="2.5"/><path d="M52 32 q-2 -9 4 -12 q2 7 -2 12" fill="#2F7D3B" stroke="#2E2118" stroke-width="2.5"/></svg>',
+    chiliBigRed: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M34 52 Q60 40 84 50 Q96 62 82 82 Q58 100 40 84 Q26 68 34 52Z" fill="#C93A2B" stroke="#2E2118" stroke-width="3"/><path d="M84 50 q14 -10 20 -4 q-6 10 -14 10" fill="#2F7D3B" stroke="#2E2118" stroke-width="2.5"/><path d="M40 62 Q60 54 78 60" fill="none" stroke="#A5281C" stroke-width="3" stroke-linecap="round"/></svg>',
+    chiliSmallGreen: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M40 84 Q30 50 52 32 Q54 52 48 84 Q44 92 40 84Z" fill="#4C9A4F" stroke="#2E2118" stroke-width="3"/><path d="M66 86 Q60 48 84 30 Q86 54 74 86 Q70 94 66 86Z" fill="#2F7D3B" stroke="#2E2118" stroke-width="3"/><path d="M84 30 q8 -8 14 -6 q-2 8 -8 10" fill="#236030" stroke="#2E2118" stroke-width="2.5"/><path d="M52 32 q-2 -9 4 -12 q2 7 -2 12" fill="#236030" stroke="#2E2118" stroke-width="2.5"/></svg>',
+    shallot: '<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="46" cy="68" r="22" fill="#A84E6B" stroke="#2E2118" stroke-width="3"/><circle cx="74" cy="68" r="22" fill="#C06B85" stroke="#2E2118" stroke-width="3"/><path d="M46 48 q-2 -12 4 -18 M74 48 q2 -12 -4 -18" fill="none" stroke="#2F7D3B" stroke-width="3.5" stroke-linecap="round"/><path d="M38 60 q8 -6 16 0 M66 60 q8 -6 16 0" fill="none" stroke="#7C3550" stroke-width="2.5" stroke-linecap="round"/></svg>',
+    garlic: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 36 q-4 -12 2 -18 q4 8 2 18" fill="#E9A319" stroke="#2E2118" stroke-width="2.5"/><circle cx="60" cy="72" r="26" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><path d="M48 54 q-6 18 2 34 M72 54 q6 18 -2 34 M60 50 q0 20 0 44" fill="none" stroke="#D9C9A8" stroke-width="2.5"/></svg>',
+    sugar: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M36 44 L84 44 L90 96 Q60 108 30 96 Z" fill="#FFFDF4" stroke="#2E2118" stroke-width="3"/><path d="M36 44 Q60 32 84 44" fill="none" stroke="#2E2118" stroke-width="3"/><rect x="44" y="58" width="32" height="20" rx="3" fill="#E9A319" stroke="#2E2118" stroke-width="2.5"/><text x="60" y="72" text-anchor="middle" font-size="9" font-weight="800" fill="#2E2118" font-family="sans-serif">GULA</text><circle cx="48" cy="34" r="2.4" fill="#fff" stroke="#2E2118" stroke-width="1.5"/><circle cx="66" cy="30" r="2.4" fill="#fff" stroke="#2E2118" stroke-width="1.5"/></svg>',
+    sugar2: '<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M36 44 L84 44 L90 96 Q60 108 30 96 Z" fill="#FDEBC6" stroke="#2E2118" stroke-width="3"/><path d="M36 44 Q60 32 84 44" fill="none" stroke="#2E2118" stroke-width="3"/><rect x="40" y="56" width="14" height="14" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/><rect x="56" y="56" width="14" height="14" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/><rect x="48" y="70" width="14" height="14" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/><rect x="64" y="70" width="14" height="14" fill="#FFFDF4" stroke="#2E2118" stroke-width="2.5"/></svg>'
+  };
+
+  /* ---- Elements ---- */
+  var $ = function(id){ return document.getElementById(id); };
+  var screens = { start:$("screen-start"), game:$("screen-game"), end:$("screen-end") };
+  var bestStartEl=$("best-start"), bestEndEl=$("best-end");
+  var roundPill=$("round-pill"), scoreNow=$("score-now"), progressEl=$("progress");
+  var itemArt=$("item-art"), itemName=$("item-name");
+  var form=$("guess-form"), input=$("guess-input"), liveFormat=$("live-format"), errorMsg=$("error-msg");
+  var revealEl=$("reveal"), verdictEl=$("verdict"), verdictLabel=$("verdict-label"), verdictSub=$("verdict-sub");
+  var bigNumber=$("big-number"), bigValue=$("big-value");
+  var dGuess=$("d-guess"), dActual=$("d-actual"), dDiff=$("d-diff"), dPct=$("d-pct");
+  var pointsValue=$("points-value"), pointsLabel=$("points-label"), streakLine=$("streak-line");
+  var btnNext=$("btn-next"), btnLock=$("btn-lock");
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---- Formatting & parsing ---- */
+  function fmtRp(n){ return "Rp " + Math.round(n).toLocaleString("id-ID"); }
+  function fmtNum(n){ return Math.round(n).toLocaleString("id-ID"); }
+  function fmtPct(x){ return (Math.round(x*10)/10).toLocaleString("id-ID") + "%"; }
+
+  function parseGuess(raw){
+    if(raw == null) return NaN;
+    var s = String(raw).trim().replace(/\s+/g,"");
+    if(!s) return NaN;
+    if(s.indexOf(",") !== -1){
+      s = s.replace(/\./g,"").replace(",",".");
+    } else {
+      s = s.replace(/\./g,"");
+    }
+    s = s.replace(/[^0-9.]/g,"");
+    if(!s) return NaN;
+    var v = parseFloat(s);
+    return v;
+  }
+
+  /* ---- Best score ---- */
+  function readBest(){
+    try{
+      var v = window.localStorage.getItem(BEST_KEY);
+      if(v === null) return null;
+      var n = parseInt(v,10);
+      return isNaN(n) ? null : n;
+    }catch(e){ return (typeof bestMemory === "number") ? bestMemory : null; }
+  }
+  var bestMemory = null;
+  function writeBest(n){
+    bestMemory = n;
+    try{ window.localStorage.setItem(BEST_KEY, String(n)); }catch(e){}
+  }
+  function bestText(n){
+    return n === null ? "belum ada" : fmtRp(n);
+  }
+  function refreshBestDisplays(){
+    var b = readBest();
+    bestStartEl.textContent = bestText(b);
+    bestEndEl.textContent = bestText(b);
+  }
+
+  /* ---- Scoring ---- */
+  function scoreFor(err){
+    if(err <= 0.05) return { points:100, verdict:"Juragan Pasar!", close:true,
+      sub:"Selisih 5% atau kurang — tebakan kelas juragan." };
+    if(err <= 0.10) return { points:80, verdict:"Hampir Sempurna", close:true,
+      sub:"Selisih 10% atau kurang — tinggal sedikit lagi." };
+    if(err <= 0.20) return { points:60, verdict:"Lumayan Dekat", close:true,
+      sub:"Selisih 20% atau kurang — arahnya sudah benar." };
+    if(err <= 0.35) return { points:30, verdict:"Masih Jauh", close:false,
+      sub:"Selisih 35% atau kurang — masih bisa lebih dekat." };
+    return { points:10, verdict:"Kebablasan", close:false,
+      sub:"Selisih di atas 35% — harga pasar memang suka mengejutkan." };
+  }
+  function finalTitle(score){
+    if(score >= 900) return "Juragan Pasar Sejati";
+    if(score >= 700) return "Langganan Pasar";
+    if(score >= 450) return "Pembeli Rajin";
+    return "Baru Pertama ke Pasar";
+  }
+
+  /* ---- State ---- */
+  var deck=[], roundIndex=0, score=0, prevBase=null, results=[], animId=null;
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+
+  function showScreen(name){
+    Object.keys(screens).forEach(function(k){ screens[k].hidden = (k!==name); });
+    window.scrollTo(0,0);
+  }
+
+  function renderProgress(){
+    progressEl.innerHTML = "";
+    for(var i=0;i<10;i++){
+      var seg = document.createElement("i");
+      if(i < roundIndex) seg.className="done";
+      else if(i === roundIndex) seg.className="now";
+      progressEl.appendChild(seg);
+    }
+  }
+
+  function startGame(){
+    deck = shuffle(ITEMS).slice(0,10);
+    roundIndex = 0; score = 0; prevBase = null; results = [];
+    scoreNow.textContent = "0";
+    showScreen("game");
+    renderRound();
+  }
+
+  function renderRound(){
+    if(animId){ cancelAnimationFrame(animId); animId=null; }
+    var item = deck[roundIndex];
+    roundPill.textContent = "Ronde " + (roundIndex+1) + "/10";
+    scoreNow.textContent = score;
+    renderProgress();
+    itemArt.innerHTML = ART[item.art] || ART.rice;
+    itemName.textContent = item.name;
+    form.hidden = false;
+    revealEl.hidden = true;
+    input.value = "";
+    liveFormat.textContent = "";
+    hideError();
+    input.disabled = false;
+    btnLock.disabled = false;
+    setTimeout(function(){ try{ input.focus({preventScroll:true}); }catch(e){ input.focus(); } }, 60);
+  }
+
+  function hideError(){ errorMsg.textContent=""; errorMsg.classList.remove("show"); }
+  function showError(msg){
+    errorMsg.textContent = msg;
+    errorMsg.classList.add("show");
+  }
+
+  function updateLiveFormat(){
+    var v = parseGuess(input.value);
+    if(isNaN(v) || v <= 0){ liveFormat.textContent=""; return; }
+    liveFormat.innerHTML = "Tebakanmu: <b>" + fmtRp(v) + "</b> per kg";
+  }
+
+  function lockGuess(){
+    var raw = input.value;
+    var guess = parseGuess(raw);
+    if(raw.trim()==="" || isNaN(guess)){
+      showError("Tulis dulu tebakanmu sebelum dikunci. Isi dengan angka Rupiah, misalnya 25000.");
+      input.focus();
+      return;
+    }
+    if(guess <= 0){
+      showError("Tebakan harus lebih dari Rp 0. Tulis angka yang lebih besar dari nol.");
+      input.focus();
+      return;
+    }
+    hideError();
+    var item = deck[roundIndex];
+    var actual = item.price;
+    var err = Math.abs(guess-actual)/actual;
+    var res = scoreFor(err);
+    var streak = (res.points >= 60 && prevBase !== null && prevBase >= 60);
+    var bonus = streak ? 20 : 0;
+    var gained = res.points + bonus;
+    score += gained;
+    results.push({ item:item, guess:guess, actual:actual, err:err, points:res.points, bonus:bonus, gained:gained, verdict:res.verdict });
+    prevBase = res.points;
+
+    /* Reveal UI */
+    form.hidden = true;
+    revealEl.hidden = false;
+    verdictEl.className = "verdict " + (res.close ? "close" : "far");
+    verdictLabel.textContent = res.verdict;
+    verdictSub.textContent = res.sub;
+    bigNumber.className = "big-number " + (res.close ? "close" : "far");
+
+    dGuess.textContent = fmtRp(guess);
+    dActual.textContent = fmtRp(actual);
+    var diff = guess - actual;
+    var diffAbs = Math.abs(diff);
+    var dir = diff === 0 ? "tepat sama" : (diff > 0 ? "lebih tinggi" : "lebih rendah");
+    dDiff.innerHTML = fmtRp(diffAbs) + (diff===0 ? "" : "<small>" + dir + " dari harga sebenarnya</small>");
+    dPct.innerHTML = fmtPct(err*100) + "<small>" + (diff===0 ? "tepat" : (diff>0 ? "di atas" : "di bawah") + " harga sebenarnya</small>");
+
+    pointsLabel.textContent = "Poin ronde ini (" + res.points + " poin" + (bonus ? " + bonus" : "") + ")";
+    pointsValue.textContent = "+" + gained;
+    streakLine.hidden = !streak;
+    scoreNow.textContent = score;
+    renderProgress();
+    btnNext.textContent = (roundIndex === 9) ? "Lihat Hasil" : "Ronde Berikutnya";
+
+    animateNumber(guess, actual);
+    try{ btnNext.focus({preventScroll:true}); }catch(e){ btnNext.focus(); }
+  }
+
+  function animateNumber(from, to){
+    if(reduceMotion || from === to){
+      bigValue.textContent = fmtNum(to);
+      return;
+    }
+    var start = null, dur = 950;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min(1,(ts-start)/dur);
+      var eased = 1 - Math.pow(1-p,3);
+      var v = from + (to-from)*eased;
+      bigValue.textContent = fmtNum(v);
+      if(p < 1){ animId = requestAnimationFrame(step); }
+      else { bigValue.textContent = fmtNum(to); animId=null; }
+    }
+    animId = requestAnimationFrame(step);
+  }
+
+  function nextRound(){
+    if(roundIndex < 9){
+      roundIndex++;
+      renderRound();
+    } else {
+      finishGame();
+    }
+  }
+
+  function finishGame(){
+    var prevBest = readBest();
+    var isNewBest = (prevBest === null && score > 0) || (prevBest !== null && score > prevBest);
+    if(prevBest === null || score > prevBest){ writeBest(score); }
+    $("final-score").textContent = score.toLocaleString("id-ID");
+    $("final-title").textContent = finalTitle(score);
+    $("new-best").hidden = !isNewBest;
+    refreshBestDisplays();
+
+    var list = $("recap-list");
+    list.innerHTML = "";
+    results.forEach(function(r, idx){
+      var li = document.createElement("li");
+      var art = document.createElement("span");
+      art.className = "r-art";
+      art.innerHTML = ART[r.item.art] || ART.rice;
+      var name = document.createElement("span");
+      name.className = "r-name";
+      name.textContent = (idx+1) + ". " + r.item.name;
+      var sm = document.createElement("small");
+      sm.textContent = fmtRp(r.guess) + "  ·  harga " + fmtRp(r.actual) + "  ·  selisih " + fmtPct(r.err*100);
+      name.appendChild(sm);
+      var pts = document.createElement("span");
+      pts.className = "r-pts";
+      pts.textContent = "+" + r.gained + " poin";
+      li.appendChild(art); li.appendChild(name); li.appendChild(pts);
+      list.appendChild(li);
+    });
+    showScreen("end");
+  }
+
+  /* ---- Start-screen illustration strip ---- */
+  (function(){
+    var keys = ["chiliSmallRed","egg","rice","garlic","chiliSmallGreen","oil"];
+    var row = $("market-row");
+    keys.forEach(function(k){
+      var d = document.createElement("div");
+      d.className = "chip-ill";
+      d.innerHTML = ART[k];
+      row.appendChild(d);
+    });
+  })();
+
+  /* ---- Events ---- */
+  $("btn-start").addEventListener("click", startGame);
+  $("btn-again").addEventListener("click", startGame);
+  $("btn-menu").addEventListener("click", function(){ refreshBestDisplays(); showScreen("start"); });
+  $("btn-quit").addEventListener("click", function(){ refreshBestDisplays(); showScreen("start"); });
+  btnNext.addEventListener("click", nextRound);
+
+  form.addEventListener("submit", function(e){ e.preventDefault(); lockGuess(); });
+  input.addEventListener("input", function(){ hideError(); updateLiveFormat(); });
+
+  document.querySelectorAll(".keypad button").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var k = btn.getAttribute("data-key");
+      if(k === "del"){
+        input.value = input.value.slice(0,-1);
+      } else {
+        input.value = (input.value || "") + k;
+      }
+      hideError();
+      updateLiveFormat();
+      input.focus({preventScroll:true});
+    });
+  });
+
+  refreshBestDisplays();
+})();
+</script>
+</body>
+</html>
